@@ -16,5 +16,6 @@ public class Lanzador {
 
 //*********************** AÑADO ESTA LINEA
 System.out.println("Hola, soy Pedro");
+        System.out.println("Hola soy paula, estoy probando");
     }
 }
