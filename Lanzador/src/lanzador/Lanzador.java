@@ -1,21 +1,25 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package lanzador;
 
 import java.io.IOException;
 
-/**
- *
- * @author usuario
- */
 public class Lanzador {
 
-    public static void main(String[] args) {
 
-//*********************** AÑADO ESTA LINEA
-System.out.println("Hola, soy Pedro");
-        System.out.println("Hola soy paula, estoy probando");
+    public static void main(String[] args) throws IOException {
+        
+        
+        // EscritorSocket pro = new EscritorSocket();//Se crea el productor
+        System.out.println("Inicio el productor\n");
+        
+    
+    
+
+        for (int i = 0; i < 100; i++) {
+          
+            // LectorSocket cli = new LectorSocket(); //Se crea el cliente
+            System.out.println("Iniciando cliente nº " + i + "\n");
+//            cli.startCliente(); //Se inicia el cliente
+//              pro.startServer();
+        }
     }
 }
