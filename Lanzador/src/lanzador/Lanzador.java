@@ -7,19 +7,18 @@ public class Lanzador {
 
     public static void main(String[] args) throws IOException {
         
-        
-        // EscritorSocket pro = new EscritorSocket();//Se crea el productor
+        Runtime.getRuntime().exec("java -jar Productor.jar");
+
         System.out.println("Inicio el productor\n");
         
     
     
 
         for (int i = 0; i < 100; i++) {
-          
-            // LectorSocket cli = new LectorSocket(); //Se crea el cliente
+          Runtime.getRuntime().exec("java -jar Consumidor.jar");
+
             System.out.println("Iniciando cliente nº " + i + "\n");
-//            cli.startCliente(); //Se inicia el cliente
-//              pro.startServer();
+
         }
     }
 }
