@@ -1,36 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lectorsocket;
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-/*** @author Marina
- */
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+
 public class LectorSocket {
     
     
      public void startCliente() //Método para iniciar el cliente
     {
-        ServerSocket conexion = null;
-        Socket canal = null;
-        int contRecibido;     
-        String fichlog = "javalogcons.txt";  // Fichero de logging     
-        String fichruta = "buffer.txt";   // Fichero para buffer       
-        PrintStream ps = null;// Se redirigen las salidas estandar
         
-        try {   //Flujo de datos hacia el servidor
+        Socket canal = null;       
+        File fbuffer= new File("../log.txt");// Fichero de log  
+        RandomAccessFile raf= null;     
+        PrintStream ps = null;// Se redirigen las salidas estandar
+        FileLock lock;
+        FileChannel channel=null;
+        String numero=null,contador=null;
+        
+        try {  
+            
+            canal= new Socket("localhost",12500);
+            if(canal.isConnected()){
+                System.out.println("Consumidor conectado");
+            }
             BufferedReader br = new BufferedReader(new InputStreamReader(canal.getInputStream()));
            
-            contRecibido=br.read();
+            contador=br.readLine();
+            numero=br.readLine();
+            System.out.println("Consumidor "+ contador+" coge el numero "+numero);
+            br.close();
 
-            ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(new File(fichlog), true)), true);
+            ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(fbuffer, true)), true);
             
             canal.close();//Fin de la conexión
         } catch (Exception e) {
