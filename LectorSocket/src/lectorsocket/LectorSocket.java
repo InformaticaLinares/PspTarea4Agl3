@@ -7,40 +7,66 @@ import java.nio.channels.FileLock;
 public class LectorSocket {
     
     
-     public void startCliente() //Método para iniciar el cliente
-    {
-        
-        Socket canal = null;       
-        File fbuffer= new File("../log.txt");// Fichero de log  
-        RandomAccessFile raf= null;     
-        PrintStream ps = null;// Se redirigen las salidas estandar
-        FileLock lock;
-        FileChannel channel=null;
-        String numero=null,contador=null;
-        
-        try {  
-            
-            canal= new Socket("localhost",12500);
-            if(canal.isConnected()){
-                System.out.println("Consumidor conectado");
+     public static void main(String[] args) {
+
+        Socket canal = null;
+        BufferedReader entrada = null;
+        PrintWriter salida = null;
+
+        FileLock lock = null;
+        FileChannel channel = null;
+        File fbuffer = new File("../registros.log");
+        RandomAccessFile raf = null;
+
+        String numero = null;
+        String contador = null;
+
+        try {
+            canal = new Socket("localhost", 12500);
+            if (canal.isConnected()) {
+                raf = new RandomAccessFile(fbuffer, "rwd");
+                channel = raf.getChannel();
+                lock = channel.lock();
+                System.out.println("Consumidor conectado.");
+                raf.seek(raf.length());
+
+                raf.writeBytes("Consumidor conectado." + "\n");
+                lock.release();
+                raf.close();
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader(canal.getInputStream()));
-           
-            contador=br.readLine();
-            numero=br.readLine();
-            System.out.println("Consumidor "+ contador+" coge el numero "+numero);
-            br.close();
-
-            ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(fbuffer, true)), true);
-            
-            canal.close();//Fin de la conexión
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.toString());
+            System.exit(-1);
         }
-    }
 
-    public static void main(String[] args) throws IOException {
-        
+        try {
+
+            entrada = new BufferedReader(new InputStreamReader(canal.getInputStream()));
+            contador = entrada.readLine();
+            numero = entrada.readLine();
+            raf = new RandomAccessFile(fbuffer, "rwd");
+            channel = raf.getChannel();
+            lock = channel.lock();
+            raf.seek(raf.length());
+            System.out.println("Consumidor " + contador + " coge el número " + numero);
+            raf.seek(raf.length());
+
+            raf.writeBytes("Consumidor " + contador + " coge el número " + numero + ".");
+            lock.release();
+            raf.close();
+            entrada.close();
+
+        } catch (IOException e) {
+            System.err.println(e.toString());
+            System.exit(-1);
+        }
+
+        try {
+            canal.close();
+        } catch (IOException e) {
+            System.err.println(e.toString());
+            System.exit(-1);
+        }
     }
     
 }
