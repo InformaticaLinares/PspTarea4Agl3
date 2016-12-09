@@ -27,10 +27,10 @@ public class LectorSocket {
                 raf = new RandomAccessFile(fbuffer, "rwd");
                 channel = raf.getChannel();
                 lock = channel.lock();
-                System.out.println("Consumidor conectado.");
+                System.out.println("Consumidor conectado.\r\n");
                 raf.seek(raf.length());
 
-                raf.writeBytes("Consumidor conectado." + "\n");
+                raf.writeBytes("Consumidor conectado.\r\n");
                 lock.release();
                 raf.close();
             }
@@ -48,10 +48,9 @@ public class LectorSocket {
             channel = raf.getChannel();
             lock = channel.lock();
             raf.seek(raf.length());
-            System.out.println("Consumidor " + contador + " coge el número " + numero);
-            raf.seek(raf.length());
+         
 
-            raf.writeBytes("Consumidor " + contador + " coge el número " + numero + ".");
+            raf.writeBytes("Consumidor " + contador + " coge el número " + numero + "\r\n.");
             lock.release();
             raf.close();
             entrada.close();

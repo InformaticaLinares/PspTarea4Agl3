@@ -45,7 +45,7 @@ public class EscritorSocket {
                     channel = raf.getChannel();
                     lock = channel.lock();
                     raf.seek(raf.length());
-                    raf.writeBytes("Productor conectado con consumidor.");
+                    raf.writeBytes("Productor conectado con consumidor.\r\n");
                     lock.release();
                     raf.close();
                 }
@@ -58,7 +58,7 @@ public class EscritorSocket {
                 channel = raf.getChannel();
                 lock = channel.lock();
                 raf.seek(raf.length());
-                raf.writeBytes("Productor genera el número " + numero + ".");
+                raf.writeBytes("Productor genera el número " + numero + ".\r\n");
                 lock.release();
                 raf.close();
                 salida.println(numero);
